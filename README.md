@@ -21,11 +21,16 @@ The Personalized Banking Recommendation Model is an AI-driven system designed to
 🔗 [Live Demo](#) (if applicable)  
 📹 [Video Demo](#) (if applicable)  
 🖼️ Screenshots:
-![Uploading 19-34-48-ezgif.com-video-to-gif-converter.gif…]()
+
+<img width="416" alt="image" src="https://github.com/user-attachments/assets/0cb1f5df-3201-41dd-8280-3bc597775a06" />
+<img width="209" alt="image" src="https://github.com/user-attachments/assets/29255f44-7c2e-4441-943f-b67cb2e5c8dc" />
+<img width="418" alt="image" src="https://github.com/user-attachments/assets/780eda19-4ae8-414f-ab7c-f6013277bad7" />
+<img width="314" alt="image" src="https://github.com/user-attachments/assets/b858fb3d-ce77-407b-bcb0-a9c678909f5e" />
+<img width="317" alt="image" src="https://github.com/user-attachments/assets/1caf3919-bb1d-44c9-8a1d-c47e5f1bc0ea" />
 
 
 
-![Screenshot 1](link-to-image)
+
 
 ## 💡 Inspiration
 The inspiration behind developing a **Personalized Banking Recommendation Model** stems from the growing need for smarter financial management and customer-centric banking experiences. Many individuals struggle with budgeting, saving, and making informed financial decisions, leading to overspending and financial stress. By leveraging **AI and machine learning**, banks can analyze user transactions in **savings and current accounts** to provide **personalized savings recommendations, expense insights, and tailored financial offers**. This not only helps customers make better financial choices but also enhances engagement by offering relevant banking products such as **loans, credit cards, and investment options**. In the era of **digital banking and FinTech innovations**, AI-driven solutions can bridge the gap between traditional banking and modern financial expectations, ensuring that users receive real-time, data-driven guidance for a more secure and optimized financial future.
