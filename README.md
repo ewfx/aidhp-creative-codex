@@ -21,6 +21,9 @@ The Personalized Banking Recommendation Model is an AI-driven system designed to
 🔗 [Live Demo](#) (if applicable)  
 📹 [Video Demo](#) (if applicable)  
 🖼️ Screenshots:
+![Uploading 19-34-48-ezgif.com-video-to-gif-converter.gif…]()
+
+
 
 ![Screenshot 1](link-to-image)
 
