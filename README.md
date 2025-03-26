@@ -28,14 +28,20 @@ The Personalized Banking Recommendation Model is an AI-driven system designed to
 The inspiration behind developing a **Personalized Banking Recommendation Model** stems from the growing need for smarter financial management and customer-centric banking experiences. Many individuals struggle with budgeting, saving, and making informed financial decisions, leading to overspending and financial stress. By leveraging **AI and machine learning**, banks can analyze user transactions in **savings and current accounts** to provide **personalized savings recommendations, expense insights, and tailored financial offers**. This not only helps customers make better financial choices but also enhances engagement by offering relevant banking products such as **loans, credit cards, and investment options**. In the era of **digital banking and FinTech innovations**, AI-driven solutions can bridge the gap between traditional banking and modern financial expectations, ensuring that users receive real-time, data-driven guidance for a more secure and optimized financial future.
 
 ## ⚙️ What It Does
-Personalized Offers & Discounts
-   Suggests credit card cashback offers, merchant discounts, and loan options based on             spending patterns.
-   Identifies frequent spending categories (e.g., groceries, travel, dining) and recommends       bank-partnered deals.
-Automated Savings Recommendations
-   Analyzes monthly income and expenditures to suggest optimal savings plans.
-Expense Categorization & Insights
-   Uses AI-based classification to group transactions into categories like rent, bills,          dining, entertainment, and savings.
-   Provides monthly spending reports to help users track and manage finances better.
+
+## Features  
+
+### 📌 Personalized Offers & Discounts  
+- Suggests **credit card cashback offers, merchant discounts, and loan options** based on spending patterns.  
+- Identifies frequent spending categories (**e.g., groceries, travel, dining**) and recommends **bank-partnered deals**.  
+
+### 💰 Automated Savings Recommendations  
+- Analyzes **monthly income and expenditures** to suggest **optimal savings plans**.  
+
+### 📊 Expense Categorization & Insights  
+- Uses **AI-based classification** to group transactions into categories like **rent, bills, dining, entertainment, and savings**.  
+- Provides **monthly spending reports** to help users **track and manage finances better**.  
+
 
 ## 🛠️ How We Built It
 Briefly outline the technologies, frameworks, and tools used in development.
