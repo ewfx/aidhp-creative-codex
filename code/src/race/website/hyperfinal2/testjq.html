@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Show Message For Five Seconds</title>
+    </head>
+    <body>
+        <!--Our div is hidden by default-->
+        <div id="message" style="display:none;">Hello!</div>
+        
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script>
+        //When the page has loaded.
+	setInterval(function() {
+
+        $( document ).ready(function(){
+            $('#message').fadeIn('slow', function(){
+               $('#message').delay(5000).fadeOut(); 
+            });
+        });
+}, 10000);
+
+        </script>
+    </body>
+</html>

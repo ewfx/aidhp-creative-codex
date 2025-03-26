@@ -1,0 +1,751 @@
+﻿<!doctype html>
+<html lang="en" class="md">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
+
+    <link rel="apple-touch-icon" href="static/img/f7-icon-square.png">
+    <link rel="icon" href="static/img/f7-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="static/vendor/bootstrap-4.1.3/css/bootstrap.min.css">
+
+    <!-- Material design icons CSS -->
+    <link rel="stylesheet" href="static/vendor/materializeicon/material-icons.css">
+
+    <!-- swiper carousel CSS -->
+    <link rel="stylesheet" href="static/vendor/swiper/css/swiper.min.css">
+
+    <!-- app CSS -->
+    <link id="theme" rel="stylesheet" href="static/css/style.css" type="text/css">
+
+
+    <title>My Recommended Offers</title>
+
+    <script>
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function CallIDGetStaticValues() {
+
+
+            console.log("Test");
+
+
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+            if (phone.match(/82864/gi)) {
+
+                document.getElementById("welcomestring").innerText = "Nikhil";
+
+                document.getElementById("acctype").innerText = "Wealth Management";
+
+            }
+            if (phone.match(/78753/gi)) {
+
+                document.getElementById("welcomestring").innerText = "Harshal";
+
+                document.getElementById("acctype").innerText = "Savings Account";
+
+            }
+
+            var settings = {
+                "url": "static/conf/IDConnection.json",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log("Got connection details for ID.");
+                console.log("ID Server: " + response.serverURL);
+                Server = response.serverURL;
+                open_market_offers = response.open_market_offers;
+                var settings = {
+                    "url": response.serverURL + "/SASLogon/oauth/token",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": response.basicAuthorization
+                    },
+                    "data": response.logonBody,
+                };
+                var headers = {
+                    'Accept': 'application/vnd.sas.collection+json'
+
+                };
+                $.ajax({
+                    url: 'https://10.96.2.235/jobExecution/jobs',
+                    method: 'get',
+
+                    headers: headers,
+                    success: function (data) {
+                        console.log(JSON.stringify(data));
+                    }
+                })
+
+
+                $.ajax(settings).done(function (response) {
+                    console.log("ID login sucess!");
+
+                    access_token = response.access_token;
+                    console.log(access_token);
+
+                    var settings = {
+                        "url": "https://10.96.2.235/microanalyticScore/modules/cc_personalized/steps/execute",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + response.access_token
+                        },
+                        "data": JSON.stringify({ "inputs": [{ "name": "mobile_number_", "value": phone }] }),
+                    };
+                    $.ajax(settings).done(function (response) {
+                        console.log(response);
+
+
+
+                        var offercheck = JSON.stringify(response.outputs[3].value.trim());
+                        if (offercheck.match(/0/gi)) {
+                            window.location.href = "sorry.html";
+                        }
+
+                        var returnedData = JSON.parse(JSON.stringify(response.outputs[29]));
+
+                        console.log(returnedData.value);
+                        console.log(JSON.stringify(response.outputs[3].value.trim()));
+                        var words = returnedData.value.split(" ");
+                        var j = 0;
+                        var x = 0;
+                        var counter = 0;
+                        for (var i = 0; i < words.length - 1; i++) {
+                            j = x + i;
+                            counter = counter + 1;
+                            console.log(counter);
+                            if (counter == 9) {
+                                break;
+                            }
+
+                            console.log(j);
+                            console.log(words[j]);
+                            var imgdiv = "img" + i;
+                            var hdrdiv = "h5" + i;
+                            var imgsrc = "img/" + words[j] + ".png"
+                            var aid = "a" + i;
+                            var aid2 = aid + "id";
+                            console.log(imgsrc);
+                            console.log(hdrdiv);
+                            if (words[j].match(/Marks/gi)) {
+                                x = 2;
+                                words[j] = "Marks and Spencers";
+                            }
+                            /*
+                            document.getElementById(hdrdiv).innerText = words[j];
+                            document.getElementById(imgdiv).src = imgsrc;
+                            document.getElementById(aid).value = words[j];
+                            */
+
+                            if ((words[j].match(/dominos/gi)) || (words[j].match(/Naturals/gi)) || (words[j].match(/Punjabibynature/gi)) || (words[j].match(/Starbucks/gi))) {
+                                var divurl = '<div class="card"><div class="card-body"><div class="media"><a href="#" class="square-40 mr-3"><img src="' + imgsrc + '" alt=""></a><a href="selectoffer.html" onclick="acceptoffer(\'' + words[j] + '\'); return false" class="media-body" value="' + capitalizeFirstLetter(words[j]) + '"><h5>' + capitalizeFirstLetter(words[j]) + '</h5><p>Exclusive offer on credit card</p></a><a class="like-heart color-red"><i class="icon material-icons">favorite_border</i></a></div></div>';
+                                console.log(divurl);
+                                $("#collapseOne2").append(divurl);
+                            }
+                            if ((words[j].match(/bookmyshow/gi)) || (words[j].match(/BigBazaar/gi)) || (words[j].match(/PVR/gi)) || (words[j].match(/INOX/gi)) || (words[j].match(/Marks/gi))) {
+                                var divurl = '<div class="card"><div class="card-body"><div class="media"><a href="#" class="square-40 mr-3"><img src="' + imgsrc + '" alt=""></a><a href="selectoffer.html" onclick="acceptoffer(\'' + words[j] + '\'); return false" class="media-body" value="' + capitalizeFirstLetter(words[j]) + '"><h5>' + capitalizeFirstLetter(words[j]) + '</h5><p>Exclusive offer on credit card</p></a><a class="like-heart color-red"><i class="icon material-icons">favorite_border</i></a></div></div>';
+                                console.log(divurl);
+                                $("#collapseTwo2").append(divurl);
+                            }
+                            if (words[j].match(/airtel/gi)) {
+                                var divurl = '<div class="card"><div class="card-body"><div class="media"><a href="#" class="square-40 mr-3"><img src="' + imgsrc + '" alt=""></a><a href="selectoffer.html" onclick="acceptoffer(\'' + words[j] + '\'); return false" class="media-body" value="' + capitalizeFirstLetter(words[j]) + '"><h5>' + capitalizeFirstLetter(words[j]) + '</h5><p>Exclusive offer on credit card</p></a><a class="like-heart color-red"><i class="icon material-icons">favorite_border</i></a></div></div>';
+                                console.log(divurl);
+                                $("#collapseThree2").append(divurl);
+                            }
+
+                            
+                            
+
+                            if (i < 3) {
+                                offerid = "offer" + i + "id";
+                                imgid = "img" + i + "id";
+
+                                document.getElementById(offerid).innerText = capitalizeFirstLetter(words[j]);
+                                document.getElementById(imgid).src = imgsrc;
+                                document.getElementById(aid2).value = words[j];
+
+                            }
+
+
+
+
+                        }
+
+
+
+
+
+                    });
+                });
+            });
+
+
+        }
+
+
+
+    </script>
+    <script>
+        function acceptoffer(val) {
+            console.log(val);
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+            var url = "selectoffer.html?phone=" + encodeURIComponent(phone) + "&merchant=" + encodeURIComponent(val);
+            window.location.href = url;
+        };
+
+        function myoffer() {
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+
+            var url = "categories.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+        function userhome() {
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+
+            var url = "user-profile.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+        function aboutus() {
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+
+            var url = "aboutus.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+
+    </script>
+
+    <script>
+
+        function showmappage() {
+
+            var settings = {
+                "url": "static/conf/IDConnection.json",
+                "method": "GET",
+                "timeout": 0,
+            };
+            var queryString = decodeURIComponent(window.location.search);
+            queryString = queryString.substring(1);
+            var queries = queryString.split("=");
+            phone = queries[1];
+
+
+
+
+            $.ajax(settings).done(function (response) {
+                console.log("Got connection details for ID.");
+                console.log("ID Server: " + response.serverURL);
+                Server = response.serverURL;
+                open_market_offers = response.open_market_offers;
+                var settings = {
+                    "url": response.serverURL + "/SASLogon/oauth/token",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": response.basicAuthorization
+                    },
+                    "data": response.logonBody,
+                };
+
+                $.ajax(settings).done(function (response) {
+                    console.log("ID login sucess!");
+
+                    access_token = response.access_token;
+                    console.log(access_token);
+                    var settings = {
+                        "url": "https://10.96.2.235/microanalyticScore/modules/cc_personalized/steps/execute",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + response.access_token
+                        },
+                        "data": JSON.stringify({ "inputs": [{ "name": "mobile_number_", "value": phone }] }),
+                    };
+                    $.ajax(settings).done(function (response) {
+                        console.log(response);
+
+                        var offercheck = JSON.stringify(response.outputs[3].value.trim());
+                        console.log(offercheck);
+                        if (offercheck.match(/0/gi)) {
+                            window.location.href = "sorry.html";
+                        }
+
+                        var returnedData = JSON.parse(JSON.stringify(response.outputs[29]));
+                        var words = returnedData.value.split(" ");
+                        var j = 0;
+                        var x = 0;
+
+                        var url = "nearme.html?merchant=" + encodeURIComponent(words) + "&phone=" + encodeURIComponent(phone);
+                        window.location.href = url;
+
+                    });
+                });
+            });
+
+        }
+
+    </script>
+
+</head>
+
+<body class="color-theme-blue push-content-right theme-light" onload="CallIDGetStaticValues()">
+    <div class="loader justify-content-center ">
+        <div class="maxui-roller align-self-center"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div class="wrapper">
+        <!-- sidebar left start -->
+        <div class="sidebar sidebar-left">
+            <div class="profile-link">
+                <a href="#" class="media">
+                    <div class="w-auto h-100">
+                        <figure class="avatar avatar-40"><img src="static/img/user1.png" alt=""> </figure>
+                    </div>
+                    <div class="media-body">
+                        <h5 id="welcomestring">BANK_USER <span class="status-online bg-success"></span></h5>
+                        <p id="acctype">ACCOUNT_TYPE</p>
+                    </div>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="" class="item-link item-content dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="item-title">
+                                <i class="material-icons">menu</i> Menu
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="userhome(); return false" href="user-profile.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">home</i> Home
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="myoffer(); return false" href="categories.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">Result</i> My Offers
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="showmappage(); return false" href="aboutus.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">About</i> Best Offers Near Me
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="profile-link text-center">
+                <a href="login.html" class="btn btn-outline-white btn-block px-3">Logout</a>
+            </div>
+        </div>
+        <!-- sidebar left ends -->
+        <!-- sidebar right start -->
+        <div class="sidebar sidebar-right">
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left-close"><i class="material-icons">keyboard_backspace</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">Admin</a>
+                </div>
+            </header>
+            <div class="page-content text-white ">
+                <div class="row mx-0 mt-3">
+                    <div class="col">
+                        <div class="card bg-none border-0 shadow-none">
+                            <div class="card-body userlist_large">
+                                <div class="media">
+                                    <figure class="avatar avatar-120 rounded-circle my-2">
+                                        <img src="static/img/user1.png" alt="user image">
+                                    </figure>
+                                    <div class="media-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar right ends -->
+        <!-- fullscreen menu start -->
+        <!-- page main start -->
+        <div class="page">
+
+
+
+            <form class="searchcontrol">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button type="button" class="input-group-text close-search"><i class="material-icons">keyboard_backspace</i></button>
+                    </div>
+                    <input type="text" class="form-control border-0" placeholder="Search..." aria-label="Username">
+                </div>
+            </form>
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left"><i class="material-icons">menu</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">
+                        <figure><img src="static/img/saslogo1.jpg" alt=""></figure> Categories
+                    </a>
+                </div>
+                <div class="right">
+                    <a href="javascript:void(0)" class="searchbtn"><i class="material-icons">search</i></a>
+                    <a href="javascript:void(0)" class="menu-right"><i class="material-icons">person</i></a>
+                </div>
+            </header>
+
+
+
+            <div class="page-content circle-background">
+                <div class="content-sticky-footer">
+                    <div class="row m-0">
+                        <div class="col-12 my-3">
+                            <figure class="categories-banner">
+                                <img src="static/img/offers.png">
+                            </figure>
+                        </div>
+                        <br />
+                        <br />
+
+                    </div>
+                    <div class="alert alert-dark" role="alert" style="position: fixed; bottom: 5px; left:2%; right:2%; display: none; z-index: 999999;">
+                        <p id="purchaseid"></p>
+                        <a id="intaid" href="#"><p id="interestid"></p></a>
+                    </div>
+                    <script>
+                        setInterval(function () {
+
+                            var merchantarr = ["Dominos", "Starbucks", "Marks and Spencers", "BigBazaar", "Naturals", "Inox", "PVR"];
+                            var locarr = ["Bandra", "Andheri", "Colaba", "Lower Parel", "Powai", "New Delhi", "Vashi", "Marine Line", "Malabar Hills", "Borivli", "Tilak Nagar", "Mira Road", " Thane", "Worli", "National College", "BKC"];
+                            var discarr = ["10", "15", "25", "7", "18", "5", "12", "22", "24", "9", "30"];
+                            randdisc = discarr[Math.floor(Math.random() * discarr.length)];
+                            randloc = locarr[Math.floor(Math.random() * locarr.length)];
+                            randmerchant = merchantarr[Math.floor(Math.random() * merchantarr.length)];
+                            console.log(randmerchant);
+                            var finaltext = "A customer at " + randloc + " recently availed " + randdisc + "% discount at " + randmerchant + ". Interested in this offer ?";
+                            document.getElementById("intaid").href = "selectoffer.html?phone=undefined&merchant=" + randmerchant;
+
+                            document.getElementById("purchaseid").innerText = finaltext;
+                            document.getElementById("interestid").innerText = "Click Here to avail this offer";
+
+
+                            $(document).ready(function () {
+                                $('.alert').fadeIn('slow', function () {
+                                    $('.alert').delay(8000).fadeOut();
+                                });
+                            });
+                        }, 10000);
+
+                    </script>
+
+                    <h2 class="block-title color-dark">Top Offers for you</h2>
+
+                    <div class="carosel">
+                        <div data-pagination='{"el": ".swiper-pagination"}' class="swiper-container swiper-init swipermultiple homepage-restaurant">
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <figure><img id="img0id" src="static/img/restaurant2.jpg" alt=""></figure>
+                                    <div class="block-slide">
+                                        <div class="card card-data-item">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <a href="selectoffer.html" onclick="acceptoffer(this.value); return false" class="media-body" value="test" id="a0id">
+                                                        <p>Exclusive Credit Card Discount</p>
+
+                                                        <h5 id="offer0id"></h5>
+                                                    </a>
+                                                    <div class="w-auto h-100">
+                                                        <a class="like-heart color-red">
+                                                            <i class="icon material-icons">favorite</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer pt-0">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <i class="material-icons text-warning">star</i>
+                                                        <span class="post-seconds">4.9 <span>(254)</span></span>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <i class="material-icons text-grey">schedule</i>
+                                                        <span class="post-seconds">20 <span>min</span></span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <i class="material-icons text-grey">monetization_on</i>
+                                                        <span class="post-seconds">40 <span>$</span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <figure><img id="img1id" src="static/img/restaurant2.jpg" alt=""></figure>
+                                    <div class="block-slide">
+                                        <div class="card card-data-item">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <a href="selectoffer.html" onclick="acceptoffer(this.value); return false" class="media-body" value="test" id="a1id">
+                                                        <p>Exclusive Credit Card Discount</p>
+                                                        <h5 id="offer1id">OFFER_NAME </h5>
+                                                    </a>
+                                                    <div class="w-auto h-100">
+                                                        <a class="like-heart color-red">
+                                                            <i class="icon material-icons">favorite</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer pt-0">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <i class="material-icons text-warning">star</i>
+                                                        <span class="post-seconds">4.2 <span>(208)</span></span>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <i class="material-icons text-grey">schedule</i>
+                                                        <span class="post-seconds">20 <span>min</span></span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <i class="material-icons text-grey">monetization_on</i>
+                                                        <span class="post-seconds">40 <span>$</span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <figure><img id="img2id" src="static/img/restaurant2.jpg" alt=""></figure>
+                                    <div class="block-slide">
+                                        <div class="card card-data-item">
+                                            <div class="card-body">
+                                                <div class="media">
+                                                    <a href="selectoffer.html" onclick="acceptoffer(this.value); return false" class="media-body" value="test" id="a2id">
+                                                        <p></p>
+                                                        <h5 id="offer2id">OFFER_NAME</h5>
+                                                    </a>
+                                                    <div class="w-auto h-100">
+                                                        <a class="like-heart color-red">
+                                                            <i class="icon material-icons">favorite</i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer pt-0">
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        <i class="material-icons text-warning">star</i>
+                                                        <span class="post-seconds">4.9 <span>(254)</span></span>
+                                                    </div>
+                                                    <div class="col px-0">
+                                                        <i class="material-icons text-grey">schedule</i>
+                                                        <span class="post-seconds">20 <span>min</span></span>
+                                                    </div>
+                                                    <div class="col">
+                                                        <i class="material-icons text-grey">monetization_on</i>
+                                                        <span class="post-seconds">40 <span>$</span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-12">
+
+                            <h5 class="block-title text-center">Shop By Categories</h5>
+                            <div class="row mx-0">
+                                <div class="col">
+
+
+                                    <div id="accordion2">
+                                        <div class="card mb-1 border-0 rounded-0">
+                                            <div class="card-header bg-primary rounded-0 py-2" id="headingOne2">
+                                                <a href="" class=" text-white" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+                                                    Food and Beverages
+                                                </a>
+                                            </div>
+                                            `
+                                            <div id="collapseOne2" class="collapse show" data-parent="#accordion2">
+
+                                            </div>
+                                        </div>
+                                        <div class="card mb-1 border-0 rounded-0">
+                                            <div class="card-header bg-primary rounded-0 py-2" id="headingTwo2">
+                                                <a href="" class=" text-white collapsed" data-toggle="collapse" data-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+                                                    Shopping and Movies
+                                                </a>
+                                            </div>
+                                            <div id="collapseTwo2" class="collapse" data-parent="#accordion2">
+
+                                            </div>
+                                        </div>
+                                        <div class="card mb-1 border-0 rounded-0">
+                                            <div class="card-header bg-primary rounded-0 py-2" id="headingThree2">
+                                                <a href="" class=" text-white collapsed" data-toggle="collapse" data-target="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2">
+                                                    Phone and Electronics
+                                                </a>
+                                            </div>
+                                            <div id="collapseThree2" class="collapse" data-parent="#accordion2">
+
+                                            </div>
+                                        </div>
+                                        <div class="card mb-1 border-0 rounded-0">
+                                            <div class="card-header bg-primary rounded-0 py-2" id="headingFour2">
+                                                <a href="" class=" text-white collapsed" data-toggle="collapse" data-target="#collapseFour2" aria-expanded="false" aria-controls="collapseFour2">
+                                                    Miscellaneous
+                                                </a>
+                                            </div>
+                                            <div id="collapseFour2" class="collapse" data-parent="#accordion2">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <br>
+                </div>
+                <div class="footer-wrapper">
+                    <div class="footer">
+                        <div class="row mx-0">
+                            <div class="col-7 text-right">
+                                <a href="" class="social"><img src="static/img/facebook.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/googleplus.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/linkedin.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/twitter.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer dark">
+                        <div class="row mx-0">
+                            <div class="col text-center">
+                                Copyright @2020Wells Fargo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- page main ends -->
+
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+
+    <!-- sparklines chart jquery file -->
+    <script src="static/vendor/sparklines/jquery.sparkline.min.js"></script>
+
+    <!-- Circular progress gauge jquery file -->
+    <script src="static/vendor/circle-progress/circle-progress.min.js"></script>
+
+
+    <!-- Cookie jquery file -->
+    <script src="static/vendor/cookie/jquery.cookie.js"></script>
+
+    <!-- Swiper carousel jquery file -->
+    <script src="static/vendor/swiper/js/swiper.min.js"></script>
+
+    <!-- Application main common jquery file -->
+    <script src="static/js/main.js"></script>
+
+
+    <!-- page specific script -->
+    <script>
+        $(window).on('load', function () {
+            /* tooltip */
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        });
+
+    </script>
+
+
+    <script>
+        $(window).on('load', function () {
+            /*Swiper carousel */
+            var mySwiper = new Swiper('.swiper-container', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }
+            });
+
+
+
+            /* tooltip */
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
