@@ -1,0 +1,404 @@
+﻿<!doctype html>
+<html lang="en" class="md">
+
+<head>
+    <!-- Required meta tags -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
+
+    <link rel="apple-touch-icon" href="img/f7-icon-square.png">
+    <link rel="icon" href="img/f7-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="vendor/bootstrap-4.1.3/css/bootstrap.min.css">
+
+    <!-- Material design icons CSS -->
+    <link rel="stylesheet" href="vendor/materializeicon/material-icons.css">
+
+    <!-- swiper carousel CSS -->
+    <link rel="stylesheet" href="vendor/swiper/css/swiper.min.css">
+
+    <!-- app CSS -->
+    <link id="theme" rel="stylesheet" href="css/style.css" type="text/css">
+
+    <style>
+
+        .coupon {
+            border: 2px dashed #bcbcbc;
+            border-radius: 10px;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 300
+        }
+
+            .coupon #head {
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+                min-height: 56px
+            }
+
+            .coupon #footer {
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px
+            }
+
+        #title .visible-xs {
+            font-size: 12px
+        }
+
+        .coupon #title img {
+            font-size: 30px;
+            height: 30px;
+            margin-top: 5px
+        }
+
+        @media screen and (max-width: 500px) {
+            .coupon #title img {
+                height: 15px
+            }
+        }
+
+        .coupon #title span {
+            float: right;
+            margin-top: 5px;
+            font-weight: 700;
+            text-transform: uppercase
+        }
+
+        .coupon-img {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 0
+        }
+
+        .items {
+            margin: 15px 0
+        }
+
+        .usd {
+            font-size: 20px;
+            color: #FF0000
+        }
+
+        .number {
+            font-size: 40px;
+            font-weight: 700;
+            color: #FF0000
+        }
+
+        sup {
+            top: -15px
+        }
+
+        .disclosure {
+            padding-top: 15px;
+            font-size: 11px;
+            color: #bcbcbc;
+            text-align: center
+        }
+
+        .coupon-code {
+            color: #333333;
+            font-size: 11px
+        }
+
+        .exp {
+            color: #f34235
+        }
+
+        .print {
+            font-size: 14px;
+            float: right
+        }
+
+        .row {
+            margin: 30px 0
+        }
+
+        .btn-default {
+            margin-bottom: 40px
+        }
+    </style>
+
+
+    <title>Admin Page</title>
+
+
+
+    <script>
+        function initialstate() {
+            const button = document.querySelector('button')
+            $("#simulate").prop("disabled", false);
+            $("#original").prop("disabled", true);
+        }
+        function simulate() {
+            $("#simulate").prop("disabled", true);
+            $("#original").prop("disabled", false);
+            var settings = {
+                "url": "https://10.96.2.235:5001/simulate",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+
+        }
+        function original() {
+            $("#simulate").prop("disabled", false);
+            $("#original").prop("disabled", true);
+
+            var settings = {
+                "url": "https://10.96.2.235:5001/original",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+            });
+
+        }
+    </script>
+
+
+</head>
+
+<body class="color-theme-blue push-content-right theme-light" onload="initialstate()">
+    <div class="loader justify-content-center ">
+        <div class="maxui-roller align-self-center"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div class="wrapper">
+
+        <!-- sidebar left start -->
+        <!-- sidebar left start -->
+        <div class="sidebar sidebar-left">
+            <div class="profile-link">
+                <a href="#" class="media">
+                    <div class="w-auto h-100">
+                        <figure class="avatar avatar-40"><img src="img/user1.png" alt=""> </figure>
+                    </div>
+                    <div class="media-body">
+                        <h5 id="welcomestring">BANK_USER <span class="status-online bg-success"></span></h5>
+                        <p id="acctype">ACCOUNT_TYPE</p>
+                    </div>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="" class="item-link item-content dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="item-title">
+                                <i class="material-icons">menu</i> Menu
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="userhome(); return false" href="user-profile.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">home</i> Home
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="myoffer(); return false" href="categories.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">Result</i> My Offers
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="showmappage(); return false" href="aboutus.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">About</i> View Offers Near me !!!
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="profile-link text-center">
+                <a href="login.html" class="btn btn-outline-white btn-block px-3">Logout</a>
+            </div>
+        </div>
+        <!-- sidebar left ends -->
+        <!-- sidebar right start -->
+        <div class="sidebar sidebar-right">
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left-close"><i class="material-icons">keyboard_backspace</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">Admin</a>
+                </div>
+            </header>
+            <div class="page-content text-white ">
+                <div class="row mx-0 mt-3">
+                    <div class="col">
+                        <div class="card bg-none border-0 shadow-none">
+                            <div class="card-body userlist_large">
+                                <div class="media">
+                                    <figure class="avatar avatar-120 rounded-circle my-2">
+                                        <img src="img/user1.png" alt="user image">
+                                    </figure>
+                                    <div class="media-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar right ends -->
+        <!-- fullscreen menu start -->
+        <!-- fullscreen menu ends -->
+        <!-- page main start -->
+        <!-- page main start -->
+        <div class="page">
+            <form class="searchcontrol">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button type="button" class="input-group-text close-search"><i class="material-icons">keyboard_backspace</i></button>
+                    </div>
+                    <input type="email" class="form-control border-0" placeholder="Search..." aria-label="Username">
+                </div>
+            </form>
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left"><i class="material-icons">menu</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">
+                        <figure><img src="img/saslogo.png" alt=""></figure> Administration
+                    </a>
+                </div>
+                <div class="right">
+                    <a href="javascript:void(0)" class="searchbtn"><i class="material-icons">search</i></a>
+                    <a href="javascript:void(0)" class="menu-right"><i class="material-icons">person</i></a>
+                </div>
+            </header>
+            <div class="page-content circle-background">
+                <div class="content-sticky-footer">
+                    <div class="row m-0">
+                        <div class="col-12 my-3">
+                            <figure class="categories-banner">
+                                <img src="img/admin.png">
+                            </figure>
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+                    <div class="container d-flex justify-content-center">
+                        <button type="button" id="simulate" class="btn btn-primary" onclick="simulate()" data-toggle="modal" data-target="#exampleModalCenter">
+                            Simulate Transaction
+                        </button>
+
+                    </div>
+
+                    <br />
+
+                    <div class="container d-flex justify-content-center">
+
+                        <button type="button" id="original" class="btn btn-primary" onclick="original()" data-toggle="modal" data-target="#exampleModalCenter">
+                            Original State
+                        </button>
+                        </div>
+
+
+                      
+                    </div>
+                    <div class="footer-wrapper">
+                        <div class="footer">
+                            <div class="row mx-0">
+                                <div class="col">
+                                   Wells Fargo
+                                </div>
+                                <div class="col-7 text-right">
+                                    <a href="" class="social"><img src="img/facebook.png" alt=""></a>
+                                    <a href="" class="social"><img src="img/googleplus.png" alt=""></a>
+                                    <a href="" class="social"><img src="img/linkedin.png" alt=""></a>
+                                    <a href="" class="social"><img src="img/twitter.png" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer dark">
+                            <div class="row mx-0">
+                                <div class="col text-center">
+                                    Copyright @2020,Wells Fargo
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+    <script src="vendor/qr/qrcode.js"></script>
+
+    <!-- Cookie jquery file -->
+    <script src="vendor/cookie/jquery.cookie.js"></script>
+
+    <!-- Swiper carousel jquery file -->
+    <script src="vendor/swiper/js/swiper.min.js"></script>
+
+    <!-- Application main common jquery file -->
+    <script src="js/main.js"></script>
+
+    <!-- page specific script -->
+    <script>
+        $(window).on('load', function () {
+
+            /*Swiper carousel */
+            var mySwiper = new Swiper('.featured-restaurant', {
+                slidesPerView: 'auto',
+                spaceBetween: 10,
+                centeredSlides: 'true',
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }
+            });
+            /*Swiper carousel */
+            var mySwiper = new Swiper('.swiper-location', {
+                slidesPerView: 1,
+                spaceBetween: 0,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }
+            });
+            /*Swiper carousel */
+            var mySwiper = new Swiper('.mostviewed', {
+                slidesPerView: 2,
+                spaceBetween: 0,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                }
+            });
+            /* tooltip */
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            });
+        });
+
+    </script>
+</body>
+
+</html>

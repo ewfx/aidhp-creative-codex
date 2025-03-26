@@ -1,0 +1,234 @@
+{
+    "type": "FeatureCollection",
+    "features": [{
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+
+                72.852400,
+                19.055470
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "bar",
+                "hours": "10am - 1am",
+                "description": "OFFER1",
+                "name": "Hitchki",
+                "phone": "9876543210",
+                "storeid": "01"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.860585,
+                19.064916
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "10am - 11pm",
+                "description": "OFFER2",
+                "name": "Dominoes",
+                "phone": "9876654321",
+                "storeid": "02"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.870235,
+                19.072418
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "bar",
+                "hours": "10am - 2am",
+                "description": "OFFER3",
+                "name": "BKC DIVE",
+                "phone": "9172654729",
+                "storeid": "03"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.862449,
+                19.063822
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "10am - 2am",
+                "description": "OFFER4",
+                "name": "Capital Social",
+                "phone": "99878213132",
+                "storeid": "04"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.866571,
+                19.073496
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "10am - 11pm",
+                "description": "OFFER5",
+                "name": "Apsara Icecream",
+                "phone": "90832902384",
+                "storeid": "05"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.831054,
+                19.141579
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "cinema",
+                "hours": "10am - 11pm",
+                "description": "OFFER6",
+                "name": "PVR Icon Cinemas",
+                "phone": "9988776655",
+                "storeid": "06"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.833048,
+                19.136287
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "bar",
+                "hours": "10am - 2am",
+                "description": "OFFER7",
+                "name": "Doolally Taprooom",
+                "phone": "9812345678",
+                "storeid": "07"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.833436,
+                19.139854
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "8am - 9:30pm",
+                "description": "OFFER8",
+                "name": "Jimis Burgers",
+                "phone": "9876512345",
+                "storeid": "08"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.831927,
+                19.141093
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "8am - 9:30pm",
+                "description": "OFFER9",
+                "name": "Kailash Parbat",
+                "phone": "8776522212",
+                "storeid": "09"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.970514,
+                19.220005
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "8am - 10:30pm",
+                "description": "OFFER10",
+                "name": "Burger King, Infinity Mall",
+                "phone": "8129076245",
+                "storeid": "10"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.863834,
+                19.127885
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "restaurant",
+                "hours": "8am - 9:30pm",
+                "description": "OFFER11",
+                "name": "Naturals Icecream",
+                "phone": "8167320957",
+                "storeid": "11"
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+              "coordinates": [
+                72.824038,
+                18.995132
+
+              ]
+            },
+            "type": "Feature",
+            "properties": {
+                "category": "cinema",
+                "hours": "8am - 11:30pm",
+                "description": "OFFER12",
+                "name": "PVR Phoenix",
+                "phone": "8368018263",
+                "storeid": "12"
+            }
+        }
+        
+    ]
+}
+
