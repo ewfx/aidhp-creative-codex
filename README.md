@@ -1,4 +1,4 @@
-# 🚀 Personalized Banking Recommendation Model
+![image](https://github.com/user-attachments/assets/be7f3d4e-4f4e-49c7-9434-bdfb17e32868)# 🚀 Personalized Banking Recommendation Model
 
 ## 📌 Table of Contents
 - [Introduction](#introduction)
@@ -58,7 +58,12 @@ The inspiration behind developing a **Personalized Banking Recommendation Model*
 - It analyzes customer profiles, sentiment data, and transaction history to suggest relevant products or services.
 
 ## 🚧 Challenges We Faced
-Describe the major technical or non-technical challenges your team encountered.
+- Large Model Access : Limited system resources, so we use Together AI's API for remote inference.
+- Data Formatting : Ensured structured data handling to avoid incomplete or incorrect responses.
+- Output Accuracy : Fine-tuned prompt engineering to generate human-readable and relevant recommendations.
+- Performance : Increased max tokens and adjusted temperature for better results.
+
+
 
 ## 🏃 How to Run
 1. Clone the repository  
