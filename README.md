@@ -21,9 +21,9 @@ The Personalized Banking Recommendation Model is an AI-driven system designed to
 🔗 [Live Demo](#) (if applicable)  
 📹 [Video Demo](#) (artifacts/demo/Trained custom model.mp4)  
 🖼️ Screenshots:
-
 <img width="416" alt="image" src="https://github.com/user-attachments/assets/0cb1f5df-3201-41dd-8280-3bc597775a06" />
 <img width="209" alt="image" src="https://github.com/user-attachments/assets/29255f44-7c2e-4441-943f-b67cb2e5c8dc" />
+<img width="418" alt="image" src="https://github.com/user-attachments/assets/780eda19-4ae8-414f-ab7c-f6013277bad7" />
 <img width="314" alt="image" src="https://github.com/user-attachments/assets/b858fb3d-ce77-407b-bcb0-a9c678909f5e" />
 <img width="317" alt="image" src="https://github.com/user-attachments/assets/1caf3919-bb1d-44c9-8a1d-c47e5f1bc0ea" />
 <img width="310" alt="image" src="https://github.com/user-attachments/assets/dd128bcc-dabe-4b14-9141-5f3322eb1a8b" />
@@ -52,7 +52,8 @@ The inspiration behind developing a **Personalized Banking Recommendation Model*
 
 
 ## 🛠️ How We Built It
-Briefly outline the technologies, frameworks, and tools used in development.
+- This project leverages the Llama 3.1 405B model via Together AI to generate personalized recommendations.
+- It analyzes customer profiles, sentiment data, and transaction history to suggest relevant products or services.
 
 ## 🚧 Challenges We Faced
 Describe the major technical or non-technical challenges your team encountered.
