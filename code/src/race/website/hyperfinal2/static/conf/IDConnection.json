@@ -1,0 +1,11 @@
+{
+	"serverURL": "https://10.96.2.235",
+	"basicAuthorization": "Basic c2FzLmVjOg==",
+	"open_market_offers": "/microanalyticScore/modules/open_market/steps/execute",
+	"logonBody": "grant_type=password&username=sasdemo&password=Orion123",
+	"underwritinguseracquisition_fixed": "/microanalyticScore/modules/abc_flx_fixed_v1/steps/execute",
+	"underwritinguseracquisition_flexi": "/microanalyticScore/modules/abc_flx_flexi_v1/steps/execute",
+	"addOn": "/microanalyticScore/modules/abc_flx_addon/steps/execute",
+	"xsell": "/microanalyticScore/modules/abc_flx_xsell_py/steps/execute",
+	"xsell_server": "http://10.96.6.6:31772/final_result"
+}

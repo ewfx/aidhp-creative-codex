@@ -1,0 +1,27 @@
+{
+	"mock": true,
+	"offers": [
+	  {
+		"id": "dominos",
+		"image": "static/img/dominos.jpg",
+		"offer": "50% off on all pizzas",
+		"terms": "Valid on orders above $20"
+	  },
+	  {
+		"id": "petrol",
+		"image": "static/img/petrol.jpg",
+		"offer": "15% cashback on fuel",
+		"terms": "Valid at participating stations"
+	  }
+	],
+	"userProfiles": {
+	  "82864": {
+		"name": "MR. Creative_CodeX",
+		"accountType": "Wealth Management"
+	  },
+	  "78753": {
+		"name": "MR. Ankit Kumar",
+		"accountType": "Savings Account"
+	  }
+	}
+  }

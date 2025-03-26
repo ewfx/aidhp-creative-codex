@@ -64,8 +64,8 @@ Describe the major technical or non-technical challenges your team encountered.
    ```
 
 ## 🏗️ Tech Stack
-- 🔹 Frontend: React / Vue / Angular
-- 🔹 Backend: Node.js / FastAPI / Django
+- 🔹 Frontend: React
+- 🔹 Backend: Node.js / Flask
 - 🔹 Database: PostgreSQL / Firebase
 - 🔹 Other: OpenAI API / Twilio / Stripe
 
@@ -74,3 +74,4 @@ Describe the major technical or non-technical challenges your team encountered.
 - Ankit
 - Uday
 - Chandra
+

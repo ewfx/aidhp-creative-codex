@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommendation Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .customer-info {
+            margin-bottom: 20px;
+        }
+        .recommendation {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Personalized Recommendation</h1>
+        <div id="recommendation-container">
+            <p>Loading recommendation...</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/get-recommendation')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('recommendation-container').innerHTML = `
+                            <div class="card">
+                                <p>${data.error}</p>
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('recommendation-container').innerHTML = `
+                            <div class="card">
+                                <div class="customer-info">
+                                    <h2>${data.customer_name}</h2>
+                                    <p><strong>Customer ID:</strong> ${data.customer_id}</p>
+                                    <p><strong>Occupation:</strong> ${data.occupation}</p>
+                                    <p><strong>Income:</strong> $${data.income}</p>
+                                </div>
+                                <div class="recommendation">
+                                    <h3>Our Recommendation:</h3>
+                                    <p>${data.recommendation}</p>
+                                </div>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('recommendation-container').innerHTML = `
+                        <div class="card">
+                            <p>Error loading recommendation: ${error.message}</p>
+                        </div>
+                    `;
+                });
+        });
+    </script>
+</body>
+</html>

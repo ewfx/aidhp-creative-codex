@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spend Analysis Report</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .summary-card {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .chart-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7f8c8d;
+            font-size: 18px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-placeholder::before {
+            content: "Spend Analysis Chart";
+            position: absolute;
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .metric-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .category-list {
+            margin-top: 30px;
+        }
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .category-name {
+            font-weight: 500;
+        }
+        .category-percentage {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .positive {
+            color: #27ae60;
+        }
+        .negative {
+            color: #e74c3c;
+        }
+        .last-updated {
+            text-align: right;
+            font-size: 12px;
+            color: #95a5a6;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h1>Spend Analysis Report</h1>
+        
+        <div class="summary-card">
+            <h3>Monthly Overview</h3>
+            <p>Your spending patterns show opportunities to save more in Dining and Entertainment categories.</p>
+        </div>
+        
+        <div class="chart-placeholder"></div>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Monthly Spend</div>
+                <div class="metric-value">$1,842</div>
+                <div class="metric-description">2% decrease from last month</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Potential Savings</div>
+                <div class="metric-value positive">$276</div>
+                <div class="metric-description">15% of total spend</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Transactions</div>
+                <div class="metric-value">47</div>
+                <div class="metric-description">Average $39.19 per transaction</div>
+            </div>
+        </div>
+        
+        <div class="category-list">
+            <h3>Spending by Category</h3>
+            <div class="category-item">
+                <span class="category-name">Dining</span>
+                <span class="category-percentage">28%</span>
+            </div>
+            <div class="category-item">
+                <span class="category-name">Groceries</span>
+                <span class="category-percentage">22%</span>
+            </div>
+            <div class="category-item">
+                <span class="category-name">Entertainment</span>
+                <span class="category-percentage">18%</span>
+            </div>
+            <div class="category-item">
+                <span class="category-name">Transportation</span>
+                <span class="category-percentage">15%</span>
+            </div>
+            <div class="category-item">
+                <span class="category-name">Shopping</span>
+                <span class="category-percentage">12%</span>
+            </div>
+            <div class="category-item">
+                <span class="category-name">Utilities</span>
+                <span class="category-percentage">5%</span>
+            </div>
+        </div>
+        
+        <div class="summary-card" style="margin-top: 30px;">
+            <h3>Recommendations</h3>
+            <ul>
+                <li>Consider reducing Dining expenses by 15% could save ~$77/month</li>
+                <li>Switch to our Premium Credit Card to get 5% cashback on Groceries</li>
+                <li>Bundle your Entertainment subscriptions to save up to $15/month</li>
+            </ul>
+        </div>
+        
+        <div class="last-updated">
+            Report generated: <span id="current-date"></span>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        // Simulate some dynamic data
+        setTimeout(() => {
+            const chart = document.querySelector('.chart-placeholder');
+            if(chart) {
+                chart.style.background = 'linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%)';
+                chart.innerHTML = '<canvas id="mockChart" width="400" height="300"></canvas>';
+                
+                // Simple mock chart rendering
+                const ctx = document.getElementById('mockChart').getContext('2d');
+                ctx.fillStyle = '#3498db';
+                ctx.fillRect(50, 150, 60, 150);  // Dining
+                ctx.fillRect(130, 180, 60, 120); // Groceries
+                ctx.fillRect(210, 200, 60, 100); // Entertainment
+                ctx.fillRect(290, 220, 60, 80);  // Transportation
+                
+                // Add labels
+                ctx.fillStyle = '#2c3e50';
+                ctx.font = '12px Arial';
+                ctx.fillText('Dining', 55, 320);
+                ctx.fillText('Groceries', 135, 320);
+                ctx.fillText('Entertain', 215, 320);
+                ctx.fillText('Transport', 295, 320);
+            }
+        }, 500);
+    </script>
+</body>
+</html>

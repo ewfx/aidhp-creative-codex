@@ -1,0 +1,655 @@
+﻿<!doctype html>
+<html lang="en" class="md">
+
+<head>
+    <!-- Required meta tags -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no, viewport-fit=cover">
+
+    <link rel="apple-touch-icon" href="static/img/f7-icon-square.png">
+    <link rel="icon" href="static/img/f7-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="static/vendor/bootstrap-4.1.3/css/bootstrap.min.css">
+
+
+
+    <link href="static/rating/bootstrap2/css/star-rating.css" media="all" rel="stylesheet" type="text/css" />
+
+    <script src="static/rating/assets/js/jquery.min.js"></script>
+    <script src="static/rating/bootstrap2/js/star-rating.js" type="text/javascript"></script>
+
+    <link href="https://plugins.krajee.com/assets/68141b6d/css/star-rating.min.css?ver=201809171535" media="all" rel="stylesheet" type="text/css" />
+
+    <!-- Material design icons CSS -->
+    <link rel="stylesheet" href="static/vendor/materializeicon/material-icons.css">
+
+    <!-- swiper carousel CSS -->
+    <link rel="stylesheet" href="static/vendor/swiper/css/swiper.min.css">
+
+    <!-- app CSS -->
+    <link id="theme" rel="stylesheet" href="static/css/style.css" type="text/css">
+
+
+    <style>
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .closebutton {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 40px;
+            width: 40px;
+            display: block;
+            line-height: 40px;
+            vertical-align: middle;
+            text-align: center
+        }
+
+
+        /* The Close Button */
+    </style>
+
+
+    <title>Your Spot Offer</title>
+    <script>
+        function CallIDGetStaticValues() {
+
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+            var cardtype = urlParams.get("card");
+            console.log(phone);
+            console.log(merchant);
+            if (phone.match(/82864/gi)) {
+
+                document.getElementById("welcomestring").innerText = "Nikhil";
+
+
+                document.getElementById("acctype").innerText = "Wealth Management";
+
+            }
+            if (phone.match(/78753/gi)) {
+
+                document.getElementById("welcomestring").innerText = "Harshal";
+
+
+                document.getElementById("acctype").innerText = "Savings Account";
+
+            }
+            var settings = {
+                "url": "static/conf/IDConnection.json",
+                "method": "GET",
+                "timeout": 0,
+            };
+
+            $.ajax(settings).done(function (response) {
+                console.log("Got connection details for ID.");
+                console.log("ID Server: " + response.serverURL);
+                Server = response.serverURL;
+                open_market_offers = response.open_market_offers;
+                var settings = {
+                    "url": response.serverURL + "/SASLogon/oauth/token",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": response.basicAuthorization
+                    },
+                    "data": response.logonBody,
+                };
+
+                $.ajax(settings).done(function (response) {
+                    console.log("ID login sucess!");
+
+                    access_token = response.access_token;
+                    console.log(access_token);
+
+                    var settings = {
+                        "url": "https://10.96.2.235/microanalyticScore/modules/cc_spot/steps/execute",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + response.access_token
+                        },
+                        "data": JSON.stringify({ "inputs": [{ "name": "txn_merchant_", "value": merchant }] }),
+                    };
+                    $.ajax(settings).done(function (response) {
+                        console.log(response);
+                        var successstring = "Your Payment with " + merchant + " is successful.";
+
+                        var creditsuccessstring = successstring + " Your payment was done with credit card and we have applied 20% discount on your final bill";
+                        var debitsuccessstring = successstring + " Your payment was done with debit card and we have applied 10% discount on your final bill";
+                        if (cardtype.match(/debit/gi)) {
+
+                            document.getElementById("paytype").innerText = debitsuccessstring;
+                        }
+                        if (cardtype.match(/credit/gi)) {
+
+                            document.getElementById("paytype").innerText = creditsuccessstring;
+                        }
+
+                        recomstring = "Based on your transaction with " + merchant + " we have selected a spot offer for you";
+                        document.getElementById("merchantdescription").innerText = recomstring;
+
+                        var recommendation = response.outputs[0].value;
+                        var imgsrc = "myoffers/assets/img/" + recommendation + ".png"
+                        console.log(recommendation);
+                        document.getElementById("merchantname").innerText = recommendation;
+
+                        var imgsrc1 = "img/" + recommendation + "1.jpg";
+
+                        var imgsrc2 = "img/" + recommendation + "2.jpg";
+                        var imgsrc3 = "img/" + recommendation + "3.jpg";
+                        var imgsrc4 = "img/" + recommendation + "4.jpg";
+                        document.getElementById("img1").src = imgsrc1;
+                        document.getElementById("img2").src = imgsrc2;
+                        document.getElementById("img3").src = imgsrc3;
+                        document.getElementById("img4").src = imgsrc4;
+
+                    }
+                    );
+                });
+            });
+
+            var modal = document.getElementById("myModal");
+            modal.style.display = "block";
+            var closebtn = document.getElementById("modalclose");
+
+            var span = document.getElementsByClassName("close")[0];
+            closebtn.onclick = function () {
+                modal.style.display = "none";
+            }
+
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+
+
+        }
+
+
+
+    </script>
+
+    <script>
+        function myoffer() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+
+
+            var url = "categories.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+        function userhome() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+
+
+            var url = "user-profile.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+        function aboutus() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+
+
+            var url = "aboutus.html?phone=" + encodeURIComponent(phone);
+            window.location.href = url;
+        };
+
+        function purchase() {
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+            console.log(phone);
+            console.log(merchant);
+            var url = "thankyou.html?phone=" + encodeURIComponent(phone) + "&merchant=" + encodeURIComponent(merchant);
+            window.location.href = url;
+
+
+        };
+
+
+    </script>
+
+    <script>
+
+        function showmappage() {
+
+            var settings = {
+                "url": "static/conf/IDConnection.json",
+                "method": "GET",
+                "timeout": 0,
+            };
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var merchant = urlParams.get("merchant");
+
+
+
+
+            $.ajax(settings).done(function (response) {
+                console.log("Got connection details for ID.");
+                console.log("ID Server: " + response.serverURL);
+                Server = response.serverURL;
+                open_market_offers = response.open_market_offers;
+                var settings = {
+                    "url": response.serverURL + "/SASLogon/oauth/token",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Authorization": response.basicAuthorization
+                    },
+                    "data": response.logonBody,
+                };
+
+                $.ajax(settings).done(function (response) {
+                    console.log("ID login sucess!");
+
+                    access_token = response.access_token;
+                    console.log(access_token);
+                    var settings = {
+                        "url": "https://10.96.2.235/microanalyticScore/modules/cc_personalized/steps/execute",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + response.access_token
+                        },
+                        "data": JSON.stringify({ "inputs": [{ "name": "mobile_number_", "value": phone }] }),
+                    };
+                    $.ajax(settings).done(function (response) {
+                        console.log(response);
+
+                        var offercheck = JSON.stringify(response.outputs[3].value.trim());
+                        console.log(offercheck);
+                        if (offercheck.match(/0/gi)) {
+                            window.location.href = "sorry.html";
+                        }
+
+                        var returnedData = JSON.parse(JSON.stringify(response.outputs[29]));
+                        var words = returnedData.value.split(" ");
+                        var j = 0;
+                        var x = 0;
+
+                        var url = "nearme.html?merchant=" + encodeURIComponent(words) + "&phone=" + encodeURIComponent(phone);
+                        window.location.href = url;
+
+                    });
+                });
+            });
+
+        }
+
+    </script>
+
+    <script>
+
+        function availoffer() {
+            var spot = document.getElementById("merchantname").innerText;
+            var queryString = window.location.search;
+            var urlParams = new URLSearchParams(queryString);
+            var phone = urlParams.get("phone");
+            var url = "thankyou.html?phone=" + encodeURIComponent(phone) + "&merchant=" + encodeURIComponent(spot);
+            window.location.href = url;
+
+        }
+    </script>
+
+
+</head>
+
+<body class="color-theme-blue push-content-right theme-light" onload="CallIDGetStaticValues()">
+    <div class="loader justify-content-center ">
+        <div class="maxui-roller align-self-center"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+    <div class="wrapper">
+
+        <!-- sidebar left start -->
+        <!-- sidebar left start -->
+        <div class="sidebar sidebar-left">
+            <div class="profile-link">
+                <a href="#" class="media">
+                    <div class="w-auto h-100">
+                        <figure class="avatar avatar-40"><img src="static/img/user1.png" alt=""> </figure>
+                    </div>
+                    <div class="media-body">
+                        <h5 id="welcomestring">BANK_USER <span class="status-online bg-success"></span></h5>
+                        <p id="acctype">ACCOUNT_TYPE</p>
+                    </div>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="" class="item-link item-content dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="item-title">
+                                <i class="material-icons">menu</i> Menu
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="userhome(); return false" href="user-profile.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">home</i> Home
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="myoffer(); return false" href="categories.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">Result</i> My Offers
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a onclick="showmappage(); return false" href="aboutus.html" class="sidebar-close">
+                            <div class="item-title">
+                                <i class="material-icons">About</i> Near Me
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="profile-link text-center">
+                <a href="login.html" class="btn btn-outline-white btn-block px-3">Logout</a>
+            </div>
+        </div>
+        <!-- sidebar left ends -->
+        <!-- sidebar right start -->
+        <div class="sidebar sidebar-right">
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left-close"><i class="material-icons">keyboard_backspace</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">Admin</a>
+                </div>
+            </header>
+            <div class="page-content text-white ">
+                <div class="row mx-0 mt-3">
+                    <div class="col">
+                        <div class="card bg-none border-0 shadow-none">
+                            <div class="card-body userlist_large">
+                                <div class="media">
+                                    <figure class="avatar avatar-120 rounded-circle my-2">
+                                        <img src="static/img/user1.png" alt="user image">
+                                    </figure>
+                                    <div class="media-body">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar right ends -->
+        <!-- fullscreen menu start -->
+        <!-- fullscreen menu ends -->
+        <!-- page main start -->
+        <!-- fullscreen menu ends -->
+        <!-- page main start -->
+        <div class="page">
+            <form class="searchcontrol">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button type="button" class="input-group-text close-search"><i class="material-icons">keyboard_backspace</i></button>
+                    </div>
+                    <input type="email" class="form-control border-0" placeholder="Search..." aria-label="Username">
+                </div>
+            </form>
+            <header class="row m-0 fixed-header no-shadow">
+                <div class="left">
+                    <a href="javascript:void(0)" class="menu-left"><i class="material-icons">menu</i></a>
+                </div>
+                <div class="col center">
+                    <a href="" class="logo">
+                        <figure><img src="img/saslogo.png" alt=""></figure> Offer Details
+                    </a>
+                </div>
+                <div class="right">
+                    <a href="javascript:void(0)" class="searchbtn"><i class="material-icons">search</i></a>
+                    <a href="javascript:void(0)" class="menu-right"><i class="material-icons">person</i></a>
+                </div>
+            </header>
+            <div class="page-content circle-background">
+                <div class="content-sticky-footer">
+
+
+                    <div class="row m-0">
+                        <div class="col-12 my-3">
+                            <figure class="categories-banner">
+                                <img src="static/img/limited.png">
+                            </figure>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="block-title text-center">Payment Succesful</div>
+                    <div class="row mx-0">
+                        <div class="col text-center">
+                            <p id="paytype">PAYMENT_STRING </p>
+
+                            <p id="merchantdescription">DESCRIPTION </p>
+                        </div>
+                    </div>
+                    <h2 class="text-center mt-0 mb-4" id="merchantname">MERCHANT_NAME</h2>
+
+                    <div class="w-100">
+                        <div class="carosel">
+                            <div class="swiper-container swiper-init swipermultiple">
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="swiper-content-block ">
+                                            <img id="img1" src="static/img/restaurant2.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="swiper-content-block ">
+                                            <img id="img2" src="static/img/restaurant2.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="swiper-content-block ">
+                                            <img id="img3" src="static/img/restaurant2.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="swiper-content-block ">
+                                            <img id="img4" src="static/img/restaurant2.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-center">
+                        <button type="button" class="btn btn-primary" onclick="availoffer()">
+                            Avail Offer
+                        </button>
+
+                    </div>
+                    <br />
+
+                    <br>
+                    <!-- Modal -->
+
+
+
+                    <div id="myModal" class="modal">
+
+                        <!-- Modal content -->
+
+
+                        <div class="modal-content">
+                            <h4 class="modal-title">Rate Us</h4>
+                            <input id="input-2" name="input-2" class="rating rating-loading" data-min="0" data-max="5" data-step="0.1">
+
+                            <button type="button" id="modalclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+                    <br>
+                </div>
+                <div class="footer-wrapper">
+                    <div class="footer">
+                        <div class="row mx-0">
+                            <div class="col">
+                               Wells Fargo
+                            </div>
+                            <div class="col-7 text-right">
+                                <a href="" class="social"><img src="static/img/facebook.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/googleplus.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/linkedin.png" alt=""></a>
+                                <a href="" class="social"><img src="static/img/twitter.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer dark">
+                        <div class="row mx-0">
+                            <div class="col text-center">
+                                Copyright @2025,Wells Fargo
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+                            <!-- Optional JavaScript -->
+                            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+                            <script src="js/jquery-3.2.1.min.js"></script>
+                    <script src="js/popper.min.js"></script>
+                    <script src="vendor/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+                    <script src="vendor/qr/qrcode.js"></script>
+
+                    <!-- Cookie jquery file -->
+                    <script src="vendor/cookie/jquery.cookie.js"></script>
+
+                    <!-- Swiper carousel jquery file -->
+                    <script src="vendor/swiper/js/swiper.min.js"></script>
+
+                    <!-- Application main common jquery file -->
+                    <script src="js/main.js"></script>
+
+                    <!-- page specific script -->
+
+                    <script>
+                                $(window).on('load', function () {
+
+                                    /*Swiper carousel */
+                                    var mySwiper = new Swiper('.swiper-container', {
+                                        slidesPerView: 1,
+                                        spaceBetween: 0,
+                                        pagination: {
+                                            el: '.swiper-pagination',
+                                            clickable: true,
+                                        }
+                                    });
+                                    /* tooltip */
+                                    $(function () {
+                                        $('[data-toggle="tooltip"]').tooltip()
+                                    });
+                                });
+
+                    </script>
+                    <script>
+                                $(window).on('load', function () {
+
+
+
+                                    /*Swiper carousel */
+                                    var mySwiper = new Swiper('.featured-restaurant', {
+                                        slidesPerView: 'auto',
+                                        spaceBetween: 10,
+                                        centeredSlides: 'true',
+                                        pagination: {
+                                            el: '.swiper-pagination',
+                                            clickable: true,
+                                        }
+                                    });
+                                    /*Swiper carousel */
+                                    var mySwiper = new Swiper('.swiper-location', {
+                                        slidesPerView: 1,
+                                        spaceBetween: 0,
+                                        pagination: {
+                                            el: '.swiper-pagination',
+                                            clickable: true,
+                                        }
+                                    });
+                                    /*Swiper carousel */
+                                    var mySwiper = new Swiper('.mostviewed', {
+                                        slidesPerView: 2,
+                                        spaceBetween: 0,
+                                        pagination: {
+                                            el: '.swiper-pagination',
+                                            clickable: true,
+                                        }
+                                    });
+                                    /* tooltip */
+                                    $(function () {
+                                        $('[data-toggle="tooltip"]').tooltip()
+                                    });
+                                });
+
+                    </script>
+</body>
+
+</html>
