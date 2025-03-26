@@ -19,9 +19,8 @@ The Personalized Banking Recommendation Model is an AI-driven system designed to
 
 ## 🎥 Demo
 🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
+📹 [Video Demo](#) (artifacts/demo/Trained custom model.mp4)  
 🖼️ Screenshots:
-
 <img width="416" alt="image" src="https://github.com/user-attachments/assets/0cb1f5df-3201-41dd-8280-3bc597775a06" />
 <img width="209" alt="image" src="https://github.com/user-attachments/assets/29255f44-7c2e-4441-943f-b67cb2e5c8dc" />
 <img width="418" alt="image" src="https://github.com/user-attachments/assets/780eda19-4ae8-414f-ab7c-f6013277bad7" />
